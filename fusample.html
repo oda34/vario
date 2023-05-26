@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
   <!-- three.jsを読み込む(ローカル) -->
   <!-- <script src="./three.js"></script> -->
   <!-- three.jsを読み込む(CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/99/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.137.4/build/three.min.js"></script>
   <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
@@ -29,9 +29,9 @@
   
     // カメラを作成
     var camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000);
-    //camera.position.y = 10;
+    camera.position.z = 5;
 
-    //const controls = new THREE.OrbitControls(camera, document.body);
+    const controls = new THREE.OrbitControls(camera, document.body);
 
     // 箱を作成
     var geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -127,6 +127,7 @@
   
     // 初回実行
     var update = function() {
+      renderer.render(scene, camera);
       requestAnimationFrame(update);
   
       // 箱を回転させる
@@ -165,8 +166,8 @@
       torusKnot.rotation.x += 0.01;
       torusKnot.rotation.y += 0.01;
   
-      renderer.render(scene, camera);
-      //requestAnimationFrame(update);
+      
+      
     };
     update();
   }
