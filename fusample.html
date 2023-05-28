@@ -22,14 +22,13 @@
     renderer.setSize(width, height);
     document.body.appendChild(renderer.domElement);
 
-    
   
     // シーンを作成
     var scene = new THREE.Scene();
   
     // カメラを作成
     var camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000);
-    camera.position.z = 5;
+    camera.position.set (0,5,7)
 
     const controls = new THREE.OrbitControls(camera, document.body);
 
@@ -51,7 +50,7 @@
     var geometry = new THREE.PlaneGeometry( 1, 2, 3 );
     var material = new THREE.MeshPhongMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
     var plane = new THREE.Mesh( geometry, material );
-    plane.position.set(5,0,-5);
+    plane.position.set(-4,0,-5);
     scene.add( plane );
 
     //角すい〜円すい
@@ -116,14 +115,93 @@
     //チューブ方向に対して何分割するか、残りの二つの数字を変えるとクネクネの形が変わる
     var torusKnotMaterial = new THREE. MeshPhongMaterial( { color: 0xffffff, wireframe: true } );
     var torusKnot = new THREE.Mesh( torusKnotGeometry, torusKnotMaterial );
-    torusKnot.position.set( 10, 0, -15 );
+    torusKnot.position.set( 5, 0, -5 );
     scene.add( torusKnot );
+
+    //胴体
+    var sphereGeometry = new THREE.SphereGeometry( 2, 32, 32 ); 
+    //半径、垂直方向の分割数、水平方向の分割数
+    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xffffff} );
+    var snowbody = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    snowbody.position.set( 0, 0, 0 );
+
+    //顔
+    var sphereGeometry = new THREE.SphereGeometry( 1, 32, 32 ); 
+    //半径、垂直方向の分割数、水平方向の分割数
+    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xffffff} );
+    var snowface = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    snowface.position.set( 0, 2.5, 0 );
+
+    //左目
+    var sphereGeometry = new THREE.SphereGeometry( 0.1, 32, 32 ); 
+    //半径、垂直方向の分割数、水平方向の分割数
+    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0x000000} );
+    var leye = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    leye.position.set( 0, 3, 0.9 );
+
+    //右目
+    var sphereGeometry = new THREE.SphereGeometry( 0.1, 32, 32 ); 
+    //半径、垂直方向の分割数、水平方向の分割数
+    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0x000000} );
+    var reye = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    reye.position.set( -0.5, 3, 0.75 );
+
+    //バケツ
+    var  cylinderGeometry= new THREE.CylinderGeometry( 0.4, 0.7, 1, 32 );
+    //上の底面の半径、下の底面の半径、高さ、何角柱か
+    var cylinderMaterial = new THREE.MeshPhongMaterial( {color: 0xff0000} );
+    var bucket = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+    bucket.position.set( 0, 3.5, 0 );
+    //scene.add( bucket );
+
+    //右手
+    var cylinderGeometry = new THREE.CylinderGeometry( 0.1, 0.1, 2, 32 );
+    //上の底面の半径、下の底面の半径、高さ、何角柱か
+    var cylinderMaterial = new THREE.MeshPhongMaterial( {color: 0x00ff00} );
+    var rhand = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+    rhand.rotation.z=0.5;
+    rhand.position.set( -2, 0.75, 0 );
+
+    //左手
+    var cylinderGeometry = new THREE.CylinderGeometry( 0.1, 0.1, 2, 32 );
+    //上の底面の半径、下の底面の半径、高さ、何角柱か
+    var cylinderMaterial = new THREE.MeshPhongMaterial( {color: 0x00ff00} );
+    var lhand = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+    lhand.rotation.z=-0.5
+    lhand.position.set( 2, 0.75, 0 );
+
+    //雪だるま
+    var snowman = new THREE.Group();
+    snowman.add(snowface); // 頭を追加
+    snowman.add(snowbody); // 胴体を追加
+    snowman.add(leye); // 左目を追加
+    snowman.add(reye); // 右目を追加
+    snowman.add(bucket); // バケツを追加
+    snowman.add(rhand); // 右手を追加
+    snowman.add(lhand); // 左手を追加
+    snowman.position.set(0,0,0);//原点の位置
+    scene.add(snowman);
+
+    // 平面を作成
+    var planeGeometry = new THREE.PlaneGeometry(20,20);
+    //var planeMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    var planeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+    var plane2 = new THREE.Mesh(planeGeometry,planeMaterial);
+    plane2.rotation.set( -Math.PI/2, 0, 0 );
+    plane2.position.set(0,-1.5,-2);
+    scene.add(plane2);
   
     // 平行光源
     var directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(1, 1, 1);
+    directionalLight.castShadow=true;
     // シーンに追加
     scene.add(directionalLight);
+
+    var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(0, -1, -1);
+    // シーンに追加
+    //scene.add(directionalLight2);
   
     // 初回実行
     var update = function() {
@@ -166,7 +244,7 @@
       torusKnot.rotation.x += 0.01;
       torusKnot.rotation.y += 0.01;
   
-      
+      snowman.rotation.y += 0.01;
       
     };
     update();
