@@ -84,14 +84,22 @@
     var wirecylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
     wirecylinder.position.set( -1.5, 2, -5 );
     scene.add( wirecylinder );
-
+    
     //球
     var sphereGeometry = new THREE.SphereGeometry( 0.5, 32, 32 ); 
     //半径、垂直方向の分割数、水平方向の分割数
-    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff0000,wireframe:true} );
+    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff0000} );
     var sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
     sphere.position.set( 2, 0, -5 );
     scene.add( sphere );
+
+    //ワイヤーの球
+    var sphereGeometry = new THREE.SphereGeometry( 0.5, 32, 32 ); 
+    //半径、垂直方向の分割数、水平方向の分割数
+    var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff0000,wireframe:true} );
+    var wiresphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    wiresphere.position.set( 2, 2, -5 );
+    scene.add( wiresphere );
 
     //ドーナッツ
     var torusGeometry = new THREE.TorusGeometry( 0.5, 0.2, 6, 12 ); 
@@ -225,7 +233,6 @@
       wirecylinder.rotation.x += 0.01;
       wirecylinder.rotation.y += 0.01;
 
-      // 箱を回転させる
       box.rotation.x += 0.01;
       box.rotation.y += 0.01;
 
@@ -234,6 +241,9 @@
 
       sphere.rotation.x += 0.01;
       sphere.rotation.y += 0.01;
+      
+      wiresphere.rotation.x += 0.01;
+      wiresphere.rotation.y += 0.01;
 
       torus.rotation.x += 0.01;
       torus.rotation.y += 0.01;
